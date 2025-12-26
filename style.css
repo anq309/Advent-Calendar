@@ -1,0 +1,555 @@
+:root {
+    --bg-color: #f4f1ea;
+    /* Cream/Beige background */
+    --text-color: #2c3e50;
+    --accent-red: #e74c3c;
+    --accent-green: #27ae60;
+    --accent-blue: #3498db;
+    --accent-gold: #f1c40f;
+
+    --door-bg: #e74c3c;
+    /* Base door color */
+    --color-white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    /* Скроллить будем внутри панелей */
+    font-family: 'Nunito', sans-serif;
+}
+
+.main-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* ЛЕВАЯ ПАНЕЛЬ (Письмо) */
+.left-panel {
+    width: 40%;
+    background-color: var(--bg-color);
+    background-image: url('assets/panel_bg.png');
+    /* Новый фон */
+    background-size: 300px;
+    /* Размер паттерна */
+    background-repeat: repeat;
+    border-right: 1px solid #e0e0e0;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Центрируем контент по вертикали */
+    position: relative;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+    /* Легкая тень на календарь */
+    z-index: 10;
+}
+
+.panel-content {
+    animation: fadeIn 0.5s ease;
+    background: rgba(255, 255, 255, 0.9);
+    /* Полупрозрачная подложка */
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+}
+
+.welcome-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* ПРАВАЯ ПАНЕЛЬ (Календарь) */
+.right-panel {
+    width: 60%;
+    padding: 40px;
+    overflow-y: auto;
+    background-image:
+        radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Адаптив */
+@media (max-width: 900px) {
+    .main-container {
+        flex-direction: column-reverse;
+        /* Календарь сверху, письмо снизу (или наоборот, как удобнее) */
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+    }
+
+    .right-panel {
+        height: 50vh;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .left-panel {
+        height: 50vh;
+    }
+}
+
+/* Снег */
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: #ccc;
+    /* Grey snow for light bg */
+    font-size: 1em;
+    text-shadow: none;
+    animation-name: snowflakes-fall, snowflakes-shake;
+    animation-duration: 10s, 3s;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-play-state: running, running;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes snowflakes-fall {
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes snowflakes-shake {
+    0% {
+        transform: translateX(0px);
+    }
+
+    50% {
+        transform: translateX(80px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    z-index: 1;
+}
+
+h1 {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 4.5rem;
+    color: var(--accent-red);
+    margin-bottom: 10px;
+    text-shadow: none;
+    font-weight: 700;
+}
+
+h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #95a5a6;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Сетка календаря */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    width: 100%;
+    margin-bottom: 50px;
+    z-index: 1;
+}
+
+@media (max-width: 800px) {
+    .calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+}
+
+/* Дверки - Flat Colorful Style */
+.door-container {
+    aspect-ratio: 1;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.door {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.door.open {
+    transform: rotateY(-180deg);
+    cursor: default;
+}
+
+.door-front,
+.door-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    /* Hard shadow for flat look */
+}
+
+.door-front {
+    background-color: #fff;
+    /* Дефолтный фон */
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center 60%;
+    /* Чуть ниже центра */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Цикл цветов и картинок (10 уникальных) */
+
+/* 1. Снеговик (Красный) */
+.door-container:nth-child(10n+1) .door-front {
+    background-color: #ffadad;
+    background-image: url('assets/snowman.png');
+    color: #c0392b;
+}
+
+/* 2. Елка (Зеленый) */
+.door-container:nth-child(10n+2) .door-front {
+    background-color: #caffbf;
+    background-image: url('assets/tree.png');
+    color: #27ae60;
+}
+
+/* 3. Подарок (Синий) */
+.door-container:nth-child(10n+3) .door-front {
+    background-color: #a0c4ff;
+    background-image: url('assets/gift.png');
+    color: #2980b9;
+}
+
+/* 4. Олень (Желтый) */
+.door-container:nth-child(10n+4) .door-front {
+    background-color: #fdffb6;
+    background-image: url('assets/reindeer.png');
+    color: #f39c12;
+}
+
+/* 5. Санта (Фиолетовый) */
+.door-container:nth-child(10n+5) .door-front {
+    background-color: #bdb2ff;
+    background-image: url('assets/santa.png');
+    color: #8e44ad;
+}
+
+/* 6. Колокольчик (Оранжевый) */
+.door-container:nth-child(10n+6) .door-front {
+    background-color: #ffd6a5;
+    background-image: url('assets/bell.png');
+    color: #d35400;
+}
+
+/* 7. Леденец (Мятный) */
+.door-container:nth-child(10n+7) .door-front {
+    background-color: #9bf6ff;
+    background-image: url('assets/candy.png');
+    color: #16a085;
+}
+
+/* 8. Варежка (Розовый) */
+.door-container:nth-child(10n+8) .door-front {
+    background-color: #ffc6ff;
+    background-image: url('assets/mitten.png');
+    color: #d2527f;
+}
+
+/* 9. Пряник (Коричневый/Беж) */
+.door-container:nth-child(10n+9) .door-front {
+    background-color: #ffdab9;
+    background-image: url('assets/gingerbread.png');
+    color: #d35400;
+}
+
+/* 10. Пингвин (Голубой) */
+.door-container:nth-child(10n+0) .door-front {
+    background-color: #b9fbc0;
+    background-image: url('assets/penguin.png');
+    color: #2ecc71;
+}
+
+.door-number {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 3rem;
+    /* Чуть меньше, чтобы влезла картинка */
+    font-weight: 700;
+    line-height: 1;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.door-locked-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 24px;
+    height: auto;
+    opacity: 0.9;
+}
+
+.door-back {
+    background-color: #fff;
+    color: #333;
+    transform: rotateY(180deg);
+    border: 2px solid #ecf0f1;
+}
+
+.door-content {
+    text-align: center;
+}
+
+.door-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Стили для контента в панели */
+.panel-content {
+    text-align: center;
+    /* Центрируем всё содержимое */
+}
+
+.panel-content.transparent-panel {
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+}
+
+.panel-title {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 3.5rem;
+    color: var(--accent-red);
+    margin-bottom: 15px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 0px rgba(231, 76, 60, 0.1);
+    /* Легкий объем */
+}
+
+.panel-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.3rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.panel-info {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 1.8rem;
+    /* Крупнее */
+    color: var(--accent-red);
+    /* Красный */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Режим Письма: Красивое оформление */
+.letter-content {
+    background-color: #fdfbf7;
+    border: 1px solid #e8e4da;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.05),
+        0 0 40px rgba(0, 0, 0, 0.03) inset;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+}
+
+/* Эффект сложенной бумаги (уголок) */
+.letter-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 40px 40px 0;
+    border-style: solid;
+    border-color: #f6f3eb #fff;
+    display: block;
+    width: 0;
+    box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.letter-content h2 {
+    font-family: 'Mountains of Christmas', cursive;
+    color: var(--accent-red);
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 10px;
+    /* Меньше отступ до даты */
+    border-bottom: none;
+    /* Убираем черту здесь, она может быть лишней если дата красная */
+    padding-bottom: 0;
+}
+
+.letter-body {
+    font-family: 'Lora', serif;
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: #2c3e50;
+    font-style: normal;
+    /* Убрали курсив */
+    margin-top: 20px;
+}
+
+/* Буквица (первая буква) */
+.letter-body::first-letter {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 4rem;
+    color: var(--accent-red);
+    float: left;
+    line-height: 0.8;
+    /* Подбираем высоту строки */
+    padding-right: 5px;
+    /* Минимальный отступ */
+    margin-right: 0;
+    padding-top: 0;
+    /* Опускаем букву ниже */
+    margin-top: -10px;
+    /* Поднимаем П, чтобы текст казался ниже */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Элементы управления */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.close-modal:hover {
+    color: var(--accent-red);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.5rem;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Mountains of Christmas', cursive;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: var(--accent-green);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-green);
+}
+
+button.unlock-btn {
+    background: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 700;
+    box-shadow: 0 4px 0 #c0392b;
+    /* Кнопка с объемом */
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button.unlock-btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c0392b;
+}
+
+.reset-btn {
+    font-family: 'Nunito', sans-serif;
+    background: none;
+    border: 1px solid #bdc3c7;
+    color: #7f8c8d;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.reset-btn:hover {
+    background: #bdc3c7;
+    color: white;
+}

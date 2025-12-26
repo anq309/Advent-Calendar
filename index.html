@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новогодний Адвент-Календарь</title>
+
+    <!-- Подключаем красивые новогодние шрифты: Mountains of Christmas, Lora, Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Mountains+of+Christmas:wght@400;700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <div class="main-container">
+        <!-- ЛЕВАЯ ПАНЕЛЬ: Письмо / Ввод кода -->
+        <div class="left-panel" id="letterPanel">
+            <!-- Дефолтное состояние (приветствие) -->
+            <div id="panelWelcome" class="panel-content transparent-panel active">
+                <h2 class="panel-title">Добро пожаловать!</h2>
+            </div>
+
+            <!-- Режим 1: Ввод кода -->
+            <div id="stepInput" class="panel-content" style="display:none;">
+                <h2 id="modalTitle" class="panel-title">День <span id="modalDayNum"></span></h2>
+                <p class="panel-info">Найди QR-код и введи секретный шифр:</p>
+                <input type="text" id="codeInput" placeholder="Код (например, NY-12...)" autocomplete="off">
+                <button class="unlock-btn" id="submitCodeBtn">Распечатать конверт</button>
+                <div class="error-msg" id="errorMsg"></div>
+            </div>
+
+            <!-- Режим 2: Письмо -->
+            <div id="stepLetter" class="panel-content letter-mode letter-content" style="display:none;">
+                <h2 id="letterTitle">День X</h2>
+                <div class="letter-body" id="letterText">
+                    <!-- Текст письма -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ПРАВАЯ ПАНЕЛЬ: Календарь -->
+        <div class="right-panel">
+            <header>
+                <h1>Адвент-Календарь</h1>
+                <h2>Сканируй QR, вводи код, открывай сюрпризы!</h2>
+            </header>
+
+            <div class="calendar-grid" id="calendar">
+                <!-- Дверки будут сгенерированы через JS -->
+            </div>
+
+            <div class="controls">
+                <button class="reset-btn" id="resetBtn">Сбросить прогресс</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Эффекты конфетти -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

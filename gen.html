@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор QR-кодов для печати</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .print-area {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            background: white;
+            padding: 20px;
+        }
+
+        .qr-card {
+            border: 2px dashed #ccc;
+            padding: 15px;
+            text-align: center;
+            background: white;
+            break-inside: avoid;
+            /* Чтобы не разрывалось при печати */
+        }
+
+        .qr-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .qr-card .code-text {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Стили для печати */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .print-area {
+                display: block;
+            }
+
+            .qr-card {
+                display: inline-block;
+                width: 20%;
+                margin: 10px;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+    <!-- Библиотека дл генерации QR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <div class="controls">
+        <h1>🖨️ Генератор QR-кодов</h1>
+        <p>1. Введите адрес вашего сайта (например, ссылка на Vercel).</p>
+        <p>2. Нажмите "Сгенерировать".</p>
+        <p>3. Распечатайте страницу (Ctrl+P / Cmd+P) и разрежьте на карточки.</p>
+
+        <label>Адрес сайта (Base URL):</label>
+        <input type="text" id="baseUrl" value="https://your-project.vercel.app/" placeholder="https://...">
+
+        <button onclick="generateQR()">🔄 Сгенерировать QR-коды</button>
+    </div>
+
+    <div class="print-area" id="printArea">
+        <!-- Сюда вставятся QR коды -->
+        <p style="color: #666; font-style: italic;">Нажмите кнопку выше, чтобы создать коды...</p>
+    </div>
+
+    <script type="module">
+        import calendarData from './data.js';
+
+        // Делаем функцию глобальной, чтобы кнопка её видела
+        window.generateQR = function () {
+            const baseUrl = document.getElementById('baseUrl').value.trim();
+            const container = document.getElementById('printArea');
+            container.innerHTML = ''; // Очистить
+
+            // Убираем слеш в конце если есть, чтобы было красиво
+            const cleanBaseUrl = baseUrl.replace(/\/$/, "");
+
+            calendarData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'qr-card';
+
+                // Формируем ссылку: site.com/?code=XYZ
+                const fullUrl = `${cleanBaseUrl}/?code=${item.code}`;
+
+                card.innerHTML = `
+                    <h3>День ${item.day}</h3>
+                    <div id="qrcode-${item.day}"></div>
+                    <div class="code-text">Код: ${item.code}</div>
+                `;
+
+                container.appendChild(card);
+
+                // Генерируем QR
+                new QRCode(document.getElementById(`qrcode-${item.day}`), {
+                    text: fullUrl,
+                    width: 128,
+                    height: 128,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            });
+        };
+    </script>
+</body>
+
+</html>
