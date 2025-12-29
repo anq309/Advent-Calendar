@@ -205,8 +205,11 @@ h2 {
 /* Дверки - Flat Colorful Style */
 .door-container {
     aspect-ratio: 1;
-    perspective: 1000px;
+    perspective: 1500px;
+    /* Меньше искажений */
     cursor: pointer;
+    position: relative;
+    z-index: 1;
 }
 
 .door {
@@ -218,8 +221,10 @@ h2 {
 }
 
 .door.open {
-    transform: rotateY(-180deg);
+    transform: rotateY(180deg);
     cursor: default;
+    z-index: 2;
+    /* Чтобы открытая не перекрывалась соседними при вращении */
 }
 
 .door-front,
@@ -234,118 +239,8 @@ h2 {
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-    /* Hard shadow for flat look */
-}
-
-.door-front {
-    background-color: #fff;
-    /* Дефолтный фон */
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center 60%;
-    /* Чуть ниже центра */
-    position: relative;
-    overflow: hidden;
-}
-
-/* Цикл цветов и картинок (10 уникальных) */
-
-/* 1. Снеговик (Красный) */
-.door-container:nth-child(10n+1) .door-front {
-    background-color: #ffadad;
-    background-image: url('assets/snowman.png');
-    color: #c0392b;
-}
-
-/* 2. Елка (Зеленый) */
-.door-container:nth-child(10n+2) .door-front {
-    background-color: #caffbf;
-    background-image: url('assets/tree.png');
-    color: #27ae60;
-}
-
-/* 3. Подарок (Синий) */
-.door-container:nth-child(10n+3) .door-front {
-    background-color: #a0c4ff;
-    background-image: url('assets/gift.png');
-    color: #2980b9;
-}
-
-/* 4. Олень (Желтый) */
-.door-container:nth-child(10n+4) .door-front {
-    background-color: #fdffb6;
-    background-image: url('assets/reindeer.png');
-    color: #f39c12;
-}
-
-/* 5. Санта (Фиолетовый) */
-.door-container:nth-child(10n+5) .door-front {
-    background-color: #bdb2ff;
-    background-image: url('assets/santa.png');
-    color: #8e44ad;
-}
-
-/* 6. Колокольчик (Оранжевый) */
-.door-container:nth-child(10n+6) .door-front {
-    background-color: #ffd6a5;
-    background-image: url('assets/bell.png');
-    color: #d35400;
-}
-
-/* 7. Леденец (Мятный) */
-.door-container:nth-child(10n+7) .door-front {
-    background-color: #9bf6ff;
-    background-image: url('assets/candy.png');
-    color: #16a085;
-}
-
-/* 8. Варежка (Розовый) */
-.door-container:nth-child(10n+8) .door-front {
-    background-color: #ffc6ff;
-    background-image: url('assets/mitten.png');
-    color: #d2527f;
-}
-
-/* 9. Пряник (Коричневый/Беж) */
-.door-container:nth-child(10n+9) .door-front {
-    background-color: #ffdab9;
-    background-image: url('assets/gingerbread.png');
-    color: #d35400;
-}
-
-/* 10. Пингвин (Голубой) */
-.door-container:nth-child(10n+0) .door-front {
-    background-color: #b9fbc0;
-    background-image: url('assets/penguin.png');
-    color: #2ecc71;
-}
-
-.door-number {
-    font-family: 'Mountains of Christmas', cursive;
-    font-size: 3rem;
-    /* Чуть меньше, чтобы влезла картинка */
-    font-weight: 700;
-    line-height: 1;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 2;
-    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.door-locked-icon {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 24px;
-    height: auto;
-    opacity: 0.9;
+    top: 0;
+    left: 0;
 }
 
 .door-back {
@@ -354,10 +249,11 @@ h2 {
     transform: rotateY(180deg);
     border: 2px solid #e0e0e0;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    /* Эффект углубления */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .door-content {
