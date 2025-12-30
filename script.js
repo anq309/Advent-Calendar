@@ -38,7 +38,11 @@ function initCalendar() {
         </div>
         <div class="door-back">
           <div class="door-content">
-            <span class="door-emoji">📩</span>
+            <div class="door-envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-letter"></div>
+              <div class="envelope-base"></div>
+            </div>
           </div>
         </div>
       </div>

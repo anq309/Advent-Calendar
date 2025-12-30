@@ -488,3 +488,170 @@ button.unlock-btn:hover {
     color: var(--accent-red);
     background: none;
 }
+
+/* --- RESTORED STYLES FOR DOORS AND ICONS --- */
+
+/* Fix for the huge lock icon - now smaller and bottom-right */
+.door-locked-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    margin: 0;
+    opacity: 0.9;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+    background-color: #81ecec;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Base style for door front with image support */
+.door-front {
+    background-color: var(--color-white);
+    background-size: 85%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    position: absolute;
+    /* Already absolute from parent, but ensuring context */
+}
+
+/* Door Number Styling */
+.door-number {
+    font-family: 'Mountains of Christmas', cursive;
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: bold;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 2px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+}
+
+/* Specific Door Backgrounds - Fixed Cycle 10n */
+.door-container:nth-child(10n+1) .door-front {
+    background-color: #ffeba1;
+    background-image: url('assets/santa.png');
+}
+
+.door-container:nth-child(10n+2) .door-front {
+    background-color: #c7ecee;
+    background-image: url('assets/tree.png');
+}
+
+.door-container:nth-child(10n+3) .door-front {
+    background-color: #ffcccc;
+    background-image: url('assets/snowman.png');
+}
+
+.door-container:nth-child(10n+4) .door-front {
+    background-color: #d1ccc0;
+    background-image: url('assets/reindeer.png');
+}
+
+.door-container:nth-child(10n+5) .door-front {
+    background-color: #ff9ff3;
+    background-image: url('assets/gingerbread.png');
+}
+
+.door-container:nth-child(10n+6) .door-front {
+    background-color: #55efc4;
+    background-image: url('assets/gift.png');
+}
+
+.door-container:nth-child(10n+7) .door-front {
+    background-color: #74b9ff;
+    background-image: url('assets/mitten.png');
+}
+
+.door-container:nth-child(10n+8) .door-front {
+    background-color: #a29bfe;
+    background-image: url('assets/candy.png');
+}
+
+.door-container:nth-child(10n+9) .door-front {
+    background-color: #dfe6e9;
+    background-image: url('assets/bell.png');
+}
+
+.door-container:nth-child(10n+10) .door-front {
+    background-color: #00cec9;
+    background-image: url('assets/penguin.png');
+}
+
+/* --- NEW ENVELOPE STYLES FOR OPENED DOORS --- */
+
+.door-back {
+    /* Make the background slightly darker to emphasize the "empty" or "used" slot */
+    background-color: #ecf0f1;
+}
+
+/* Container for the envelope */
+.door-envelope {
+    width: 50px;
+    height: 35px;
+    background: #bdc3c7;
+    /* Inside shadow color */
+    position: relative;
+    margin-top: 15px;
+    border-radius: 0 0 5px 5px;
+}
+
+.envelope-letter {
+    width: 42px;
+    height: 40px;
+    background: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 4px;
+    transition: 0.3s;
+    z-index: 1;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Lines representing text on the letter */
+.envelope-letter::before,
+.envelope-letter::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    height: 2px;
+    background: #e0e0e0;
+    width: 30px;
+}
+
+.envelope-letter::before {
+    top: 10px;
+}
+
+.envelope-letter::after {
+    top: 16px;
+}
+
+.door.open:hover .envelope-letter {
+    transform: translateY(-15px);
+}
+
+/* Front of the envelope */
+.envelope-base {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 25px solid #e74c3c;
+    border-right: 25px solid #e74c3c;
+    border-bottom: 20px solid #c0392b;
+    /* Slightly lighter for depth */
+    border-top: 15px solid transparent;
+    z-index: 2;
+    border-radius: 0 0 5px 5px;
+}
